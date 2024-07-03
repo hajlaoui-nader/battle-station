@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  ion-cannon-1:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 1
+    ports:
+      - 3001:3000
+
+  ion-cannon-2:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 2
+    ports:
+      - 3002:3000
+
+  ion-cannon-3:
+    image: seedtaghiring/ion-cannon:v1
+    environment:
+      CANNON_GEN: 3
+    ports:
+      - 3003:3000
+
+  battle-station:
+    image: battle-station:latest
+    environment:
+      HTTP_HOST: "0.0.0.0"
+      HTTP_PORT: 3000
+      CANNON1_HOST: "ion-cannon-1"
+      CANNON1_PORT: 3000
+      CANNON2_HOST: "ion-cannon-2"
+      CANNON2_PORT: 3000
+      CANNON3_HOST: "ion-cannon-3"
+      CANNON3_PORT: 3000
+    ports:
+     - 3000:3000
+    depends_on:
+      - ion-cannon-1
+      - ion-cannon-2
+      - ion-cannon-3
